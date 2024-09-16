@@ -1,7 +1,7 @@
 import { useGetUsersQuery } from "./usersApiSlice"
 import type { GridColDef } from "@mui/x-data-grid"
 import { DataGrid } from "@mui/x-data-grid"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useMemo } from "react"
 import { useAppSelector } from "../../app/hooks"
 import { selectFilterName } from "../filters/filterNameSlice"
 import { selectFilterUsername } from "../filters/filterUsernameSlice"
@@ -22,15 +22,17 @@ const columns: GridColDef[] = [
 export const UsersTable = () => {
   const { data } = useGetUsersQuery()
 
-  const unfilteredRows = data?.map(user => {
-    return {
-      id: user.id,
-      name: user.name,
-      username: user.username,
-      email: user.email,
-      phone: user.phone,
-    }
-  })
+  const unfilteredRows = useMemo(
+    () =>
+      data?.map(user => ({
+        id: user.id,
+        name: user.name,
+        username: user.username,
+        email: user.email,
+        phone: user.phone,
+      })) || [],
+    [data],
+  )
 
   const [filteredRows, setFilteredRows] = useState(unfilteredRows)
 
@@ -41,7 +43,7 @@ export const UsersTable = () => {
 
   useEffect(() => {
     setFilteredRows(
-      unfilteredRows?.filter(
+      unfilteredRows.filter(
         user =>
           (nameFilter
             ? user.name.toLowerCase().includes(nameFilter.toLowerCase())
@@ -55,7 +57,7 @@ export const UsersTable = () => {
           (phoneFilter ? user.phone.includes(phoneFilter) : true),
       ),
     )
-  }, [nameFilter, usernameFilter, emailFilter, phoneFilter])
+  }, [unfilteredRows, nameFilter, usernameFilter, emailFilter, phoneFilter])
 
   return <DataGrid rows={filteredRows} columns={columns} />
 }

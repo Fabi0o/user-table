@@ -4,7 +4,6 @@ import { filterName, selectFilterName } from "./filterNameSlice"
 import { filterUsername, selectFilterUsername } from "./filterUsernameSlice"
 import { filterEmail, selectFilterEmail } from "./filterEmailSlice"
 import { filterPhone, selectFilterPhone } from "./filterPhoneSlice"
-import { useEffect } from "react"
 
 const Filters = () => {
   const dispatch = useAppDispatch()
@@ -13,10 +12,6 @@ const Filters = () => {
   const usernameFilter = useAppSelector(selectFilterUsername)
   const emailFilter = useAppSelector(selectFilterEmail)
   const phoneFilter = useAppSelector(selectFilterPhone)
-
-  useEffect(() => {
-    console.log(nameFilter, usernameFilter, emailFilter, phoneFilter)
-  }, [nameFilter, usernameFilter, emailFilter, phoneFilter])
 
   return (
     <>

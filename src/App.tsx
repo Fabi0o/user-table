@@ -1,14 +1,18 @@
-import { Button, Container } from "@mui/material"
+import { Container, Paper } from "@mui/material"
 import "./App.css"
-import { Users } from "./features/users/Users"
+import { UsersTable } from "./features/users/UsersTable"
 
 const App = () => {
   return (
     <Container
-      sx={{ alignItems: "center", display: "flex", justifyContent: "center" }}
+      sx={{
+        alignItems: "center",
+        display: "flex",
+        height: 400,
+        justifyContent: "center",
+      }}
     >
-      <Button variant="contained">Hello World!</Button>
-      <Users />
+      <UsersTable />
     </Container>
   )
 }
